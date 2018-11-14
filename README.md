@@ -1,5 +1,5 @@
 # Pywaremon: Glance on your computer status
-# Works for servers running \*NIX, Mac, Windows, anything Python
+# Works on everything running \*NIX, Mac, Windows, anything Python
 
 I present a little 8kb Python file that will show you at a glance the resources being used on the machine
 This includes CPU, Memory, Storage, and both IN and OUT IP address (thanks to ipify API (more here:https://api.ipify.org))
