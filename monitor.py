@@ -1,6 +1,42 @@
-# Monitor computer status
-import psutil, os, time, datetime, sys, socket, requests, platform
+###############################################################################
+#######            Pywaremon: Glance on your computer status            #######
+####### Works on everything running *NIX, Mac, Windows, anything Python #######
+###############################################################################
 
+
+### These values may be changed. Please read the notes !!! ###
+# Refresh = default refresh rate, aka the time for intervals (in seconds). Can be float, e.g. 0.2
+# But I like 0.5 !
+refresh = 0.5
+
+
+# At the bottom are some waves, at least, it aims to be.
+# Set this to (True) to enable, or (False) to disable this amazing feature. I mean. Why should you?
+dowave = True
+
+# The top and bottom banners (Title / Wavey thingy) change color. Same as before:
+# Set this to (True) to enable, or (False) to disable this amazing feature. I mean. Why should you?
+changeColor = True
+
+
+###################################################
+####### BE CAREFUL WITH TOUCHING CODE BELOW #######
+import psutil, os, time, datetime, sys, socket, requests, platform
+def cls():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+if len(sys.argv) > 1:
+    try:
+        cls()
+        refresh = float(sys.argv[1])
+    except:
+        print("Argument for refresh-rate needs to be a float, e.g. '2.5' or '0.3'.")
+        print(f"Not '{sys.argv[1]}'. For now, the default of {refresh} will be used")
+        time.sleep(5)
+        pass
 
 ## CREATE OBJECT ##
 
@@ -68,11 +104,6 @@ def c2g(input):
         gh = f"{gh} Mhz"
     return gh
 
-def cls():
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
 
 def getTemp():
     try:
@@ -117,11 +148,11 @@ color = time.localtime()[:-1]
 colors = [pClr.P, pClr.B, pClr.G, pClr.Y, pClr.R]
 ostype = platform.platform()
 oslen = osLen()
-cWave = ["⁓", "~", "~", "-", "~", "-"]
+cWave = ["⁓", "~", "~", "⁓", "~", "⁓"]
 iWave = 0
 
 def tWave():
-    global iWave, cWave, sWave, leWave
+    global iWave, cWave, sWave, leWave, dowave
     # sWave = f"{cWave[iWave::1]}{cWave[:iWave:1]}"
     sWave = ''.join(str(e) for e in cWave[iWave::1])
     sWave += ''.join(str(e) for e in cWave[:iWave:1])
@@ -131,17 +162,22 @@ def tWave():
     if iWave == 5:
         iWave = 0
     else:
-        iWave += 1
+        if dowave == True:
+            iWave += 1
     return str(theWave)
 
 
+print("Loading. Please wait. Just grabbing stuff here, hold on buddy!")
 while go == True:
     try:
         mem = psutil.virtual_memory()
         cpuf = psutil.cpu_freq()
         cputp = psutil.cpu_times_percent()
         disk = psutil.disk_usage('/')
-        color = translate(int(str(time.localtime()[5])), 0, 60, 0, 4)
+        if changeColor == True:
+            color = translate(int(str(time.localtime()[5])), 0, 60, 0, 4)
+        else:
+            color = 1
         hour = add0(time.localtime()[3])
         mint = add0(time.localtime()[4])
         scnd = add0(time.localtime()[5])
@@ -163,7 +199,7 @@ while go == True:
         print(f"{'#'*(6*8)}#")
         print(f"### {rndClr}Pywaremon -xJustiinsane- Exit with CTRL+C {pClr.E}###")
         if os.name:
-            print(f"#{' ' * osLen()[1]}{osLen()[0]}{' ' * osLen()[2]}#")
+            print(f"#{' ' * osLen()[1]}{pClr.b}{osLen()[0]}{pClr.E}{' ' * osLen()[2]}#")
         print(f"#{tab*6}#")
         print(f"# {pClr.R}Local time{tab}{hour}{tS}{mint}{tS}{scnd}{tab*3}{pClr.E}#")
         print(f"# {pClr.R}Date{tab*2}{time.localtime()[2]}-{time.localtime()[1]}-{time.localtime()[0]} Day {time.localtime()[6]}/7 {time.localtime()[7]}/365{tab}{pClr.E}#")
@@ -192,10 +228,10 @@ while go == True:
         if hasattr(psutil, "sensors_temperatures"):
             print(f"# {pClr.R}Temp{tab*2}CPU:{tab}{getTemp()}°C {tab*3}{pClr.E}#")
             print(f"#{tab*6}#")
-        print(f"### {rndClr}{tWave()}{pClr.E} ###")
+        print(f"## {pClr.u}{rndClr} {tWave()} {pClr.E} ##")
         #print(f"###{tab*5}      ###")
         print(f"{'#'*(6*8)}#")
-        time.sleep(1)
+        time.sleep(refresh)
     except KeyboardInterrupt:
         go = False
         sys.exit('Keyboard Interuption!')
