@@ -1,6 +1,9 @@
 #############################################################################
+
 #######           Pywaremon: Glance on your computer status           #######
+
 ####### Works for servers running \*NIX, Mac, Windows, anything Python #######
+
 #############################################################################
 
 I present a little 8kb Python file that will show you at a glance the resources being used on the machine
