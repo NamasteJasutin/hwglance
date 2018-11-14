@@ -96,7 +96,7 @@ def osLen():
     maxlen = 47
     seperate = maxlen - oslen
     oT = round((seperate / 2) + 0.2)
-    oF = (seperate / 2)
+    oF = round((seperate / 2) - 0.2)
     total = int(len(str(ostype))) + oT + oF
     if int(len(str(total))) > 47:
         oF -= 1
@@ -117,6 +117,22 @@ color = time.localtime()[:-1]
 colors = [pClr.P, pClr.B, pClr.G, pClr.Y, pClr.R]
 ostype = platform.platform()
 oslen = osLen()
+cWave = ["⁓", "~", "~", "-", "~", "-"]
+iWave = 0
+
+def tWave():
+    global iWave, cWave, sWave, leWave
+    # sWave = f"{cWave[iWave::1]}{cWave[:iWave:1]}"
+    sWave = ''.join(str(e) for e in cWave[iWave::1])
+    sWave += ''.join(str(e) for e in cWave[:iWave:1])
+    leWave = ''.join(str(e) for e in sWave)
+    theWave = leWave * 7
+    theWave = theWave[1::]
+    if iWave == 5:
+        iWave = 0
+    else:
+        iWave += 1
+    return str(theWave)
 
 
 while go == True:
@@ -145,7 +161,7 @@ while go == True:
         
         cls()
         print(f"{'#'*(6*8)}#")
-        print(f"### {rndClr}Monitor - xJustiinsane - Exit with CTRL+C {pClr.E}###")
+        print(f"### {rndClr}Pywaremon -xJustiinsane- Exit with CTRL+C {pClr.E}###")
         if os.name:
             print(f"#{' ' * osLen()[1]}{osLen()[0]}{' ' * osLen()[2]}#")
         print(f"#{tab*6}#")
@@ -176,7 +192,7 @@ while go == True:
         if hasattr(psutil, "sensors_temperatures"):
             print(f"# {pClr.R}Temp{tab*2}CPU:{tab}{getTemp()}°C {tab*3}{pClr.E}#")
             print(f"#{tab*6}#")
-        print(f"### {rndClr}Monitor - xJustiinsane - Exit with CTRL+C {pClr.E}###")
+        print(f"### {rndClr}{tWave()}{pClr.E} ###")
         #print(f"###{tab*5}      ###")
         print(f"{'#'*(6*8)}#")
         time.sleep(1)
