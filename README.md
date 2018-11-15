@@ -24,4 +24,4 @@ It has unnecesary fancy stuff in it.
 I guess humans like it.
 I'm working on implementing more feautures to be changes.
 
-![image](https://user-images.githubusercontent.com/36036245/48549653-ac846700-e8d0-11e8-9db7-1adf3e9d7f2b.png)
+![image](https://user-images.githubusercontent.com/36036245/48550671-ba87b700-e8d3-11e8-949a-e58c2287651d.png)
