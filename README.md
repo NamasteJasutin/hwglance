@@ -1,3 +1,4 @@
+Video demo on YouTube : https://youtu.be/PMLaksRtqyk
 # Pywaremon: Glance on your computer status
 # Works on everything running \*NIX, Mac, Windows, anything Python
 
