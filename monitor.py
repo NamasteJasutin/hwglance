@@ -15,7 +15,14 @@ dowave = True
 changeColor = True
 # Below setting is for getting your external IP address.
 # To disable calling to the outside world, disable this.
-USESERVICES = True
+USESERVICES = False
+
+# The following setting will change the character used to define the look
+# The outer edges, as seen when running the script, are made of:
+eC = '\033[97m╳'
+eL = '\033[97m╲'
+eF = '\033[97m╱'
+# Get your ascii codes here : https://theasciicode.com.ar #
 ###########################################################
 ######### - BE CAREFUL WITH TOUCHING CODE BELOW - #########
 
@@ -49,6 +56,7 @@ class pClr:
     E = '\033[0m'
     b = '\033[1m'
     u = '\033[4m'
+    i = '\033[3m'
 
 def translate(value, leftMin, leftMax, rightMin, rightMax):
     # Converts value FROM=leftMin, leftMax | TO=rightMin,rightMax
@@ -163,6 +171,8 @@ def osLen():
     oT = round((seperate / 2) + 0.2)
     oF = round((seperate / 2) - 0.2)
     total = int(len(str(ostype))) + oT + oF
+    if int(len(str(ostype))) > 47:
+        ostype = f"{ostype[:46]}…"
     if int(len(str(total))) > 47:
         oF -= 1
         total = int(len(str(ostype))) + oT + oF
@@ -256,23 +266,23 @@ while go == True:
             mT = 1
         
         cls()
-        print(f"{'#'*(6*8)}#")
-        print(f"### {rndClr}Pywaremon -xJustiinsane- Exit with CTRL+C {pClr.E}###")
+        print(f"{eF}{eC*((6*8)-1)}{eL}")
+        print(f"{eC}{eF} {rndClr} Pywaremon -xJustiinsane- Exit with CTRL+C {pClr.E} {eL}{eC}")
         if os.name:
-            print(f"#{' ' * osLen()[1]}{pClr.b}{osLen()[0]}{pClr.E}{' ' * osLen()[2]}#")
-        print(f"#{tab*6}#")
-        print(f"# {pClr.R}Local time{tab}{hour}{tS}{mint}{tS}{scnd}{tab*3}{pClr.E}#")
-        print(f"# {pClr.R}Date{tab*2}{time.localtime()[2]}-{time.localtime()[1]}-{time.localtime()[0]} Day {time.localtime()[6]}/7 {time.localtime()[7]}/365{tab}{pClr.E}#")
-        print(f"#{tab*6}#")
+            print(f"{eC}{' ' * osLen()[1]}{pClr.b}{osLen()[0]}{pClr.E}{' ' * osLen()[2]}{eC}")
+        print(f"{eC}{tab*6}{eC}")
+        print(f"{eC} {pClr.R}Local time{tab}{hour}{tS}{mint}{tS}{scnd}{tab*3}{pClr.E}{eC}")
+        print(f"{eC} {pClr.R}Date{tab*2}{time.localtime()[2]}-{time.localtime()[1]}-{time.localtime()[0]} Day {time.localtime()[6]}/7 {time.localtime()[7]}/365{tab}{pClr.E}{eC}")
+        print(f"{eC}{tab*6}{eC}")
         if int(len(c2g(cpuf[0]))) < 8:
             sT = 2
         else:
             sT = 1
-        print(f"# {pClr.B}CPU{tab*2}Clock:{tab}{c2g(cpuf[0])}/{c2g(cpuf[2])}{pClr.E}{tab*sT}#")
-        print(f"# {pClr.B}Usage{tab*2}User:{tab}{progBar(averager('u', cputp[0]), 20)}{pClr.E}#{nwl}#{pClr.B}{tab*2}System:{tab}{progBar(averager('s', cputp[2]), 20)}{pClr.E}#{nwl}#{pClr.B}{tab*2}Idle:{tab}{progBar(averager('i', cputp[3]), 20, True)}{pClr.E}#")
-        print(f"#{tab*6}#")
-        print(f"# {pClr.P}Memory{tab}Using:{tab}{k2m(mem[3])[0]}/{k2m(mem[0])[0]} {k2m(mem[0])[1]}{tab*2}{pClr.E}#{nwl}#{pClr.P}{tab*2}{progBar(mem[2], 28, True)}{pClr.E}#")
-        print(f"#{tab*6}#")
+        print(f"{eC} {pClr.B}CPU{tab*2}Clock:{tab}{c2g(cpuf[0])}/{c2g(cpuf[2])}{pClr.E}{tab*sT}{eC}")
+        print(f"{eC} {pClr.B}Usage{tab*2}User:{tab}{progBar(averager('u', cputp[0]), 20)}{pClr.E}{eC}{nwl}{eC}{pClr.B}{tab*2}System:{tab}{progBar(averager('s', cputp[2]), 20)}{pClr.E}{eC}{nwl}{eC}{pClr.B}{tab*2}Idle:{tab}{progBar(averager('i', cputp[3]), 20, True)}{pClr.E}{eC}")
+        print(f"{eC}{tab*6}{eC}")
+        print(f"{eC} {pClr.P}Memory{tab}Using:{tab}{k2m(mem[3])[0]}/{k2m(mem[0])[0]} {k2m(mem[0])[1]}{tab*2}{pClr.E}{eC}{nwl}{eC}{pClr.P}{tab*2}{progBar(mem[2], 28, True)}{pClr.E}{eC}")
+        print(f"{eC}{tab*6}{eC}")
         if int(len(k2m(disk[1])[0])) < 7:
             sT = 2
         else:
@@ -281,19 +291,20 @@ while go == True:
             sT2 = 2
         else:
             sT2 = 1
-        print(f"# {pClr.G}Storage{tab}Using:{tab}{k2m(disk[1])[0]}/{k2m(disk[0])[0]} {k2m(disk[0])[1]}{tab*sT}{pClr.E}#{nwl}#{pClr.G}{tab*2}{progBar(disk[3], 28, True)}{pClr.E}#")
-        print(f"#{tab*6}#")
-        print(f"# {pClr.Y}IP Addr{tab}Local:{tab}{locIP}{tab*2}{pClr.E}#{nwl}#{pClr.Y}{tab*2}Outer:{tab}{outIP}{tab*2}{pClr.E}#")
-        print(f"#{tab*6}#")
+        print(f"{eC} {pClr.G}Storage{tab}Using:{tab}{k2m(disk[1])[0]}/{k2m(disk[0])[0]} {k2m(disk[0])[1]}{tab*sT}{pClr.E}{eC}{nwl}{eC}{pClr.G}{tab*2}{progBar(disk[3], 28, True)}{pClr.E}{eC}")
+        print(f"{eC}{tab*6}{eC}")
+        print(f"{eC} {pClr.Y}IP Addr{tab}Local:{tab}{locIP}{tab*2}{pClr.E}{eC}{nwl}{eC}{pClr.Y}{tab*2}Outer:{tab}{outIP}{tab*2}{pClr.E}{eC}")
+        print(f"{eC}{tab*6}{eC}")
         if hasattr(psutil, "sensors_temperatures"):
-            print(f"# {pClr.R}Temp{tab*2}CPU:{tab}{getTemp()}°C {tab*3}{pClr.E}#")
-            print(f"#{tab*6}#")
-        print(f"## {pClr.u}{rndClr} {tWave()} {pClr.E} ##")
-        #print(f"###{tab*5}      ###")
-        print(f"{'#'*(6*8)}#")
+            print(f"{eC} {pClr.R}Temp{tab*2}CPU:{tab}{getTemp()}°C {tab*3}{pClr.E}{eC}")
+            print(f"{eC}{tab*6}{eC}")
+        print(f"{eC}{eL} {rndClr} {tWave()} {pClr.E} {eF}{eC}")
+        #print(f"{eC*3}{tab*5}      {eC*3}")
+        print(f"{eL}{eC*((6*8)-1)}{eF}")
         time.sleep(refresh)
     except KeyboardInterrupt:
         go = False
+        print("\a")
         sys.exit('Keyboard Interuption!')
     except:
         go = False
