@@ -15,7 +15,7 @@ dowave = True
 changeColor = True
 # Below setting is for getting your external IP address.
 # To disable calling to the outside world, disable this.
-USESERVICES = False
+USESERVICES = True
 
 # The following setting will change the character used to define the look
 # The outer edges, as seen when running the script, are made of:
